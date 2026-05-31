@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>India Basket Finder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workbench" aria-labelledby="app-title">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">India Basket Finder Prototype</p>
+            <h1 id="app-title">India Basket Finder</h1>
+            <p class="topline">Find trusted grocery routes by budget, city, and need.</p>
+          </div>
+          <div class="status-pill" aria-label="Automation status">
+            <span></span>
+            Active workflow
+          </div>
+        </div>
+
+        <div class="grid">
+          <form class="panel intake" id="needForm">
+            <div class="panel-heading">
+              <h2>User problem</h2>
+              <p>Enter a grocery or ecommerce need. The prototype creates three route options.</p>
+            </div>
+
+            <label>
+              City / pincode
+              <input id="location" name="location" value="Bengaluru 560001" autocomplete="postal-code" required />
+            </label>
+
+            <label>
+              Grocery list
+              <textarea id="items" name="items" rows="5" required>atta, rice, cooking oil, sugar, tea, detergent</textarea>
+            </label>
+
+            <label>
+              Opportunity category
+              <select id="category" name="category">
+                <option value="Monthly staples">Monthly staples</option>
+                <option value="Urgent refill">Urgent refill</option>
+                <option value="Fresh produce">Fresh produce</option>
+                <option value="Packaged food">Packaged food</option>
+                <option value="Household care">Household care</option>
+              </select>
+            </label>
+
+            <div class="field-row">
+              <label>
+                Budget
+                <input id="budget" name="budget" type="number" min="100" step="50" value="3000" required />
+              </label>
+
+              <label>
+                Priority
+                <select id="priority" name="priority">
+                  <option value="best-value">Best value</option>
+                  <option value="cheapest">Cheapest</option>
+                  <option value="fastest">Fastest</option>
+                  <option value="quality">Best quality</option>
+                </select>
+              </label>
+            </div>
+
+            <button type="submit" class="primary-action">Generate routes</button>
+          </form>
+
+          <section class="panel automation" aria-labelledby="automation-title">
+            <div class="panel-heading">
+              <h2 id="automation-title">Route finder mode</h2>
+              <p>Trusted workflow for basket route decisions.</p>
+            </div>
+            <div class="flow-list">
+              <div>
+                <span>1</span>
+                <p>Read user problem, city/pincode, budget, category, and priority.</p>
+              </div>
+              <div>
+                <span>2</span>
+                <p>Compare India grocery routes by price, delivery, trust, availability, and basket fit.</p>
+              </div>
+              <div>
+                <span>3</span>
+                <p>Return cheapest, fastest, and best value routes with a trust checklist.</p>
+              </div>
+              <div>
+                <span>4</span>
+                <p>Create an opportunity record with status, revenue angle, and next action.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="trust-section" aria-labelledby="trust-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Trustable structure</p>
+              <h2 id="trust-title">Decision rules</h2>
+            </div>
+          </div>
+          <div class="trust-grid">
+            <div class="trust-card">
+              <strong>Public sources only</strong>
+              <p>No personal email, private accounts, UPI ID, paid API, or hidden login.</p>
+            </div>
+            <div class="trust-card">
+              <strong>Explain every route</strong>
+              <p>Each option shows why it exists: price, speed, quality, and buyer fit.</p>
+            </div>
+            <div class="trust-card">
+              <strong>Zero-cost first</strong>
+              <p>Prototype stays local. Any paid step must be nominal and below Rs 10,000.</p>
+            </div>
+            <div class="trust-card">
+              <strong>Opportunity pipeline</strong>
+              <p>Need, route, selected source, status, and revenue angle stay visible.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="routes-section" aria-labelledby="routes-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Route interface</p>
+              <h2 id="routes-title">Top routes</h2>
+            </div>
+            <button id="resetOpportunities" class="ghost-action" type="button">Clear opportunities</button>
+          </div>
+          <div class="route-grid" id="routeGrid"></div>
+        </section>
+
+        <section class="opportunity-section" aria-labelledby="opportunity-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Saved basket opportunities</p>
+              <h2 id="opportunity-title">Saved opportunities</h2>
+            </div>
+            <p class="count" id="opportunityCount">0 records</p>
+          </div>
+          <div class="opportunity-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User problem</th>
+                  <th>Category</th>
+                  <th>Selected route</th>
+                  <th>Budget</th>
+                  <th>Trust</th>
+                  <th>Status</th>
+                  <th>Revenue angle</th>
+                </tr>
+              </thead>
+              <tbody id="opportunityTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="assistant-section" aria-labelledby="assistant-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">AI assistance mode</p>
+              <h2 id="assistant-title">India Basket Assistant</h2>
+            </div>
+            <p class="count">No paid API</p>
+          </div>
+          <div class="assistant-layout">
+            <div class="chat-window" id="chatWindow" aria-live="polite"></div>
+            <div class="quick-prompts" aria-label="Assistant quick questions">
+              <button type="button" data-prompt="Best atta route in India">Best atta</button>
+              <button type="button" data-prompt="Monthly grocery under 3000">Monthly basket</button>
+              <button type="button" data-prompt="Which grocery route is most trustable?">Trust</button>
+              <button type="button" data-prompt="How can this opportunity earn revenue?">Revenue</button>
+            </div>
+            <form class="chat-form" id="chatForm">
+              <input id="chatInput" name="chatInput" placeholder="Ask: best route, trust, revenue, next step..." autocomplete="off" />
+              <button class="primary-action" type="submit">Ask</button>
+            </form>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
